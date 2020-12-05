@@ -1,0 +1,12 @@
+[Unit]
+Description=Centreon-Matrix Bridge
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+ExecStart=/home/matrix/venv/bin/python main.py
+User=matrix
+WorkingDirectory=/home/matrix/centreon_matrix
+Restart=always
+KillSignal=SIGKILL
