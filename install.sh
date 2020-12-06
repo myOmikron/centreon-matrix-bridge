@@ -5,4 +5,4 @@ ln -s /usr/lib/systemd/system/centreon-matrix.service /etc/systemd/system/multi-
 systemctl daemon-reload
 systemctl enable centreon-matrix
 cd /home/matrix && python3 -m venv venv
-venv/bin/python -m pip -U pip hopfenmatrix
+venv/bin/python -m pip install -U pip hopfenmatrix
