@@ -12,9 +12,9 @@ async def listener(bot):
             for line in lines:
                 res = json.loads(line)
                 await bot.send_message(
-                    message=res.content,
-                    room_id=res.message["target"],
-                    formatted_message=res.content_formatted
+                    message=res["content"],
+                    room_id=res["target"],
+                    formatted_message=res["content_formatted"]
                 )
 
 
