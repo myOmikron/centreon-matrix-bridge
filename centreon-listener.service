@@ -1,0 +1,12 @@
+[Unit]
+Description=Listener for Centreon
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+ExecStart=/home/matrix/venv/bin/python centreon_matrix/manage.py runserver 0.0.0.0:8000
+User=matrix
+WorkingDirectory=/home/matrix/centreon_matrix
+Restart=always
+KillSignal=SIGKILL
