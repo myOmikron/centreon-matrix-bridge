@@ -1,5 +1,7 @@
 import asyncio
 import json
+import os
+from pathlib import Path
 
 from hopfenmatrix.config import Namespace, Config
 from hopfenmatrix.matrix import MatrixBot
@@ -7,7 +9,9 @@ from hopfenmatrix.matrix import MatrixBot
 
 async def listener(bot):
     while True:
-        with open("../handler.fifo") as fh:
+        if not os.path.exists("handler.fifo"):
+            Path("handler.fifo").touch()
+        with open("handler.fifo") as fh:
             lines = fh.readlines()
             for line in lines:
                 res = json.loads(line)
