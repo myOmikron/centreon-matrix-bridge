@@ -25,8 +25,8 @@ async def listener(bot):
 class MyConfig(Config):
     def __init__(self):
         super(MyConfig, self).__init__()
-        centreon = Namespace()
-        centreon.shared_secret = ""
+        self.centreon = Namespace()
+        self.centreon.shared_secret = ""
 
 
 async def main():
