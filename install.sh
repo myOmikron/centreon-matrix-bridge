@@ -1,7 +1,7 @@
 adduser matrix
 cp -r centreon_matrix /home/matrix
 cp -r matrix_bridge /home/matrix
-cp centreon-matrix.service /usr/lib/systemd/system/
+cp *.service /usr/lib/systemd/system
 ln -s /usr/lib/systemd/system/centreon-listener.service /etc/systemd/system/multi-user.target.wants/
 ln -s /usr/lib/systemd/system/matrix-handler.service /etc/systemd/system/multi-user.target.wants/
 systemctl daemon-reload
