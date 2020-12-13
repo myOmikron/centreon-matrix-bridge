@@ -15,6 +15,8 @@ async def listener(bot):
             lines = fh.readlines()
             for line in lines:
                 res = json.loads(line)
+                if res["shared_secret"] != bot.config.centreon.shared_secret:
+                    break
                 await bot.send_message(
                     message=res["content"],
                     room_id=res["target"],
