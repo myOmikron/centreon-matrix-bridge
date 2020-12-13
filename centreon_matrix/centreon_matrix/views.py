@@ -7,7 +7,7 @@ from django.views import View
 class SendMessage(View):
     def post(self, request, *args, **kwargs):
         message = json.loads(request.POST)
-        msg = {}
+        msg = {"shared_secret": message["shared_secret"]}
         color = "#00ff00" if message["level"] == "OK" or message["level"] == "UP" else "#ffff00" if \
             message["level"] == "WARNING" else "#ff0000" if message["level"] == "DOWN" or message["level"] \
                                 == "CRITICAL" else "#a0a0a0" if message["level"] == "UNKNOWN" else "#000000"
