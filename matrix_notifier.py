@@ -18,7 +18,7 @@ def main(arguments):
         message["description"] = arguments.description
     if args.host:
         message["alias"] = arguments.alias
-    requests.post(arguments.url, data=json.dumps(message))
+    requests.post(arguments.url, data=json.dumps(message), headers={"User-agent": "curl/7.74.0"})
 
 
 if __name__ == '__main__':
