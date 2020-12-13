@@ -7,6 +7,6 @@ WantedBy=multi-user.target
 [Service]
 ExecStart=/home/matrix/venv/bin/python matrix_bridge/main.py
 User=matrix
-WorkingDirectory=/home/matrix/centreon_matrix
+WorkingDirectory=/home/matrix
 Restart=always
 KillSignal=SIGKILL
