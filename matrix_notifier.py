@@ -2,28 +2,41 @@
 import argparse
 import json
 
+import requests
+
 
 def main(arguments):
-    path = "/tmp/centreon_matrix_bridge.fifo"
-
     message = {
         "type": "host" if args.host else "service",
         "level": arguments.level,
         "host": arguments.hostname,
         "output": arguments.output,
-        "target": arguments.target
+        "target": arguments.target,
+        "shared_secret": arguments.secret
     }
     if args.service:
         message["description"] = arguments.description
     if args.host:
         message["alias"] = arguments.alias
-
-    with open(path, "w") as fifo:
-        fifo.write(json.dumps(message))
+    requests.post(arguments.url, data=json.dumps(message))
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--secret",
+        action="store",
+        dest="secret",
+        required=True,
+        help="The secret of the matrix notifier"
+    )
+    parser.add_argument(
+        "--url",
+        action="store",
+        dest="url",
+        required=True,
+        help="URL to matrix notifier"
+    )
     parser.add_argument(
         "--service",
         action="store_true",
@@ -68,12 +81,6 @@ if __name__ == '__main__':
         dest="output",
         required=True,
         help="Output of the service"
-    )
-    parser.add_argument(
-        "--url",
-        action="store",
-        dest="url",
-        help="URL to centreon"
     )
     parser.add_argument(
         "--target",
