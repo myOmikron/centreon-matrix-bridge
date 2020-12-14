@@ -1,6 +1,4 @@
 import asyncio
-import json
-import os
 
 import zmq
 from hopfenmatrix.config import Namespace, Config
@@ -15,19 +13,13 @@ async def listener(bot):
             while True:
                 msg = context.recv_json()
                 print(msg)
-                if not os.path.exists("handler.fifo"):
-                    os.mkfifo("handler.fifo")
-                with open("handler.fifo") as fh:
-                    lines = fh.readlines()
-                    for line in lines:
-                        res = json.loads(line)
-                        if res["shared_secret"] != bot.config.centreon.shared_secret:
-                            continue
-                        await bot.send_message(
-                            message=res["content"],
-                            room_id=res["target"],
-                            formatted_message=res["content_formatted"]
-                        )
+                if msg["shared_secret"] != bot.config.centreon.shared_secret:
+                    continue
+                await bot.send_message(
+                    message=msg["content"],
+                    room_id=msg["target"],
+                    formatted_message=msg["content_formatted"]
+                )
         except Exception:
             continue
 
