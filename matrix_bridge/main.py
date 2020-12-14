@@ -16,7 +16,7 @@ async def listener(bot):
             for line in lines:
                 res = json.loads(line)
                 if res["shared_secret"] != bot.config.centreon.shared_secret:
-                    break
+                    continue
                 await bot.send_message(
                     message=res["content"],
                     room_id=res["target"],
