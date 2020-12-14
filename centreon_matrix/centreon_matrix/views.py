@@ -30,8 +30,8 @@ class SendMessage(View):
                       f"Host: {message['host']}\n" \
                       f"Service: {message['description']}\n" \
                       f"Output: {message['output']}\n"
-            msg["content_formatted"] = f"<strong><font color=\"{color}\">Service {message['level']}</font>" \
-                                       f"</strong> ALERT<br /><pre><code>Host: {message['host']}<br />Service: " \
+            msg["content_formatted"] = f"<strong><font color=\"{color}\">Service {message['level']} ALERT</font>" \
+                                       f"</strong><br /><pre><code>Host: {message['host']}<br />Service: " \
                                        f"{message['description']}<br />Output: {message['output']}</code></pre>"
         if not os.path.exists("handler.fifo"):
             os.mkfifo("handler.fifo")
