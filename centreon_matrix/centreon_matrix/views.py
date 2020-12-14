@@ -32,6 +32,6 @@ class SendMessage(View):
             msg["content_formatted"] = f"<strong><font color=\"{color}\">Service {message['level']}</font>" \
                                        f"</strong> ALERT<br /><pre><code>Host: {message['host']}<br />Service: " \
                                        f"{message['description']}<br />Output: {message['output']}</code></pre>"
-        with open("handler.fifo") as fh:
+        with open("handler.fifo", "w") as fh:
             fh.write(json.dumps(msg))
         return JsonResponse({"result": True})
