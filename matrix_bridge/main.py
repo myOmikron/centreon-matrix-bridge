@@ -1,26 +1,33 @@
 import asyncio
+import logging
 
 import zmq
 from hopfenmatrix.config import Namespace, Config
 from hopfenmatrix.matrix import MatrixBot
+from zmq.backend.cython.constants import PAIR
+
+logger = logging.getLogger(__name__)
 
 
 async def listener(bot):
     while True:
         try:
-            context = zmq.Socket()
-            context.bind("tcp://127.0.0.1:55555")
+            context = zmq.Context.instance()
+            socket = context.socket(PAIR)
+            socket.bind("tcp://127.0.0.1:55555")
             while True:
-                msg = context.recv_string()
-                print(msg)
+                msg = socket.recv_json()
+                logger.info(f"Received {msg}")
                 if msg["shared_secret"] != bot.config.centreon.shared_secret:
+                    logger.warning(f"The shared_secret is not the one I know!")
                     continue
                 await bot.send_message(
                     message=msg["content"],
                     room_id=msg["target"],
                     formatted_message=msg["content_formatted"]
                 )
-        except Exception:
+        except Exception as err:
+            logger.error(err)
             continue
 
 

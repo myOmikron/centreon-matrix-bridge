@@ -1,9 +1,9 @@
 import json
-import os
 
 from django.http import JsonResponse
 from django.views import View
-from zmq import Socket
+from zmq import Context
+from zmq.backend.cython.constants import PAIR
 
 
 class SendMessage(View):
@@ -34,7 +34,9 @@ class SendMessage(View):
             msg["content_formatted"] = f"<strong><font color=\"{color}\">Service {message['level']} ALERT</font>" \
                                        f"</strong><br /><pre><code>Host: {message['host']}<br />Service: " \
                                        f"{message['description']}<br />Output: {message['output']}</code></pre>"
-        context = Socket()
-        context.bind("tcp://127.0.0.1:55555")
-        context.send_string(json.dumps(msg))
+        ctx = Context.instance()
+        socket = ctx.socket(PAIR)
+        socket.connect("tcp://127.0.0.1:55555")
+        socket.send_string(json.dumps(msg))
+        socket.close()
         return JsonResponse({"result": True})
