@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import argparse
-import json
 
 import requests
 
@@ -18,7 +17,7 @@ def main(arguments):
         message["description"] = arguments.description
     if args.host:
         message["alias"] = arguments.alias
-    requests.post(arguments.url, data=json.dumps(message), headers={"User-agent": "curl/7.74.0"})
+    requests.post(arguments.url, data=message, headers={"User-agent": "curl/7.74.0"})
 
 
 if __name__ == '__main__':
