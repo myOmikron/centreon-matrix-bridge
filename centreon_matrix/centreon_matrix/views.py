@@ -36,5 +36,5 @@ class SendMessage(View):
                                        f"{message['description']}<br />Output: {message['output']}</code></pre>"
         context = Socket()
         context.bind("tcp://127.0.0.1:55555")
-        context.send_json(msg)
+        context.send_string(json.dumps(msg))
         return JsonResponse({"result": True})

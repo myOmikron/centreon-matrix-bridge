@@ -11,7 +11,7 @@ async def listener(bot):
             context = zmq.Socket()
             context.bind("tcp://127.0.0.1:55555")
             while True:
-                msg = context.recv_json()
+                msg = context.recv_string()
                 print(msg)
                 if msg["shared_secret"] != bot.config.centreon.shared_secret:
                     continue
