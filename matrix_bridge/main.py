@@ -10,7 +10,7 @@ from hopfenmatrix.matrix import MatrixBot
 async def listener(bot):
     while True:
         if not os.path.exists("handler.fifo"):
-            Path("handler.fifo").touch()
+            os.mkfifo("handler.fifo")
         with open("handler.fifo") as fh:
             lines = fh.readlines()
             for line in lines:
