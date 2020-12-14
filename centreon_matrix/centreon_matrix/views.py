@@ -3,6 +3,7 @@ import os
 
 from django.http import JsonResponse
 from django.views import View
+from zmq import Socket
 
 
 class SendMessage(View):
@@ -33,8 +34,7 @@ class SendMessage(View):
             msg["content_formatted"] = f"<strong><font color=\"{color}\">Service {message['level']} ALERT</font>" \
                                        f"</strong><br /><pre><code>Host: {message['host']}<br />Service: " \
                                        f"{message['description']}<br />Output: {message['output']}</code></pre>"
-        if not os.path.exists("handler.fifo"):
-            os.mkfifo("handler.fifo")
-        with open("handler.fifo", "w") as fh:
-            fh.write(json.dumps(msg))
+        context = Socket()
+        context.bind("tcp://127.0.0.1:55555")
+        context.send_json(msg)
         return JsonResponse({"result": True})
